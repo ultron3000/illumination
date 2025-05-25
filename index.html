@@ -2,166 +2,361 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Illumination Animation Movie Collection</title>
+  <title>Citadel - Season 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      color: #fff;
-      text-align: center;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffcc00;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ffdd33;
+    }
+    
+    /* Custom animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    
+    /* Glow effect */
+    .glow-effect {
       position: relative;
     }
-
-    /* Background setup */
-    .background {
+    
+    .glow-effect::after {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQId9DLQQQDYoR_faSsHrGSNTX7qnkHB0Gahg&s') no-repeat center center fixed;
-      background-size: cover;
-      z-index: -1;
-    }
-
-    /* Dark overlay for better text visibility */
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-top: 50px;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-      font-family: 'Helvetica', sans-serif;
-      font-weight: bold;
-      color: #ffcc00; /* Bright color for Illumination theme */
-    }
-
-    .movie-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 50px;
-      padding: 20px;
-    }
-
-    .movie-card {
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid #ffcc00;
+      right: 0;
+      bottom: 0;
       border-radius: 12px;
-      padding: 20px;
-      width: 200px;
-      transition: all 0.3s ease;
-      text-align: center;
-      backdrop-filter: blur(8px);
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0);
+      transition: box-shadow 0.3s ease;
+      pointer-events: none;
     }
-
-    .movie-card:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
+    
+    .glow-effect:hover::after {
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
     }
-
-    .movie-card a {
-      text-decoration: none;
-      color: #333;
-      font-size: 1.2rem;
-      font-weight: bold;
-      transition: color 0.3s ease;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, #ffcc00, #ff9900);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-
-    .movie-card a:hover {
-      color: #ffcc00;
-    }
-
-    .back-button {
-      margin-top: 30px;
-      padding: 12px 24px;
-      background-color: #c00;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 10px;
-    }
-
-    .back-button:hover {
-      background-color: #900;
-    }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .movie-container {
-        flex-direction: column;
-        align-items: center;
-      }
-
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
       .movie-card {
-        width: 80%;
-        margin-bottom: 15px;
+        width: calc(50% - 1rem);
       }
     }
-
-    @media (max-width: 480px) {
+    
+    @media (max-width: 400px) {
       .movie-card {
-        width: 90%;
-        font-size: 1rem;
-      }
-
-      h1 {
-        font-size: 1.8rem;
+        width: 100%;
       }
     }
   </style>
 </head>
-<body>
+<body class="bg-black text-gray-100 min-h-screen">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-black bg-opacity-90 backdrop-blur-sm border-b border-yellow-600/20">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+          <i class="fas fa-shield-alt text-black text-xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold gradient-text">Illumination</h1>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-800 transition">
+          <i class="fas fa-moon text-yellow-500"></i>
+        </button>
+        <button id="search-btn" class="p-2 rounded-full hover:bg-gray-800 transition">
+          <i class="fas fa-search text-yellow-500"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Search Bar (hidden by default) -->
+    <div id="search-bar" class="hidden px-4 pb-4">
+      <div class="relative">
+        <input type="text" placeholder="Search episodes..." 
+               class="w-full bg-gray-900 border border-yellow-600/30 rounded-full py-2 px-4 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+        <i class="fas fa-search absolute left-3 top-3 text-yellow-500"></i>
+      </div>
+    </div>
+  </header>
 
-  <div class="background"></div>
-  <div class="overlay"></div>
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <section class="mb-12 relative overflow-hidden rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
+      <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5298bac0-b8bf-4c80-af67-725c1272dbb0/dhphca8-835fbbba-a2e7-4698-b887-7dc04da7a5aa.jpg/v1/fill/w_1192,h_670,q_70,strp/illumination_entertainment_wallpaper_by_thekingblader995_dhphca8-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTA4MCIsInBhdGgiOiJcL2ZcLzUyOThiYWMwLWI4YmYtNGM4MC1hZjY3LTcyNWMxMjcyZGJiMFwvZGhwaGNhOC04MzVmYmJiYS1hMmU3LTQ2OTgtYjg4Ny03ZGMwNGRhN2E1YWEuanBnIiwid2lkdGgiOiI8PTE5MjAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.eo5GKVSxAIIvjmWophKFnkr7luEq8cyChaGgS9Nat6g" 
+           alt="Citadel Banner" class="w-full h-64 md:h-96 object-cover">
+      <div class="absolute bottom-0 left-0 z-20 p-6 md:p-8">
+        <h2 class="text-3xl md:text-5xl font-bold mb-2 gradient-text">Illumination Universe</h2>
+        <p class="text-gray-300 mb-4 max-w-lg">A   list to  Illumination films that are released in many years from 2010 to 2024.</p>
+        <div class="flex space-x-3">
+          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-play mr-2"></i> Play All
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-info-circle mr-2"></i> Details
+          </button>
+        </div>
+      </div>
+    </section>
 
-  <h1>Illumination Animation Movie Collection</h1>
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center justify-between mb-8 gap-4">
+      <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
+        <button class="filter-btn active bg-yellow-600 text-black px-4 py-1 rounded-full text-sm font-medium">All</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Action</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Drama</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Thriller</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Espionage</button>
+      </div>
+      
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400 text-sm">Sort by:</span>
+        <select class="bg-gray-900 border border-gray-700 text-white text-sm rounded-full px-3 py-1 focus:outline-none focus:ring-1 focus:ring-yellow-500">
+          <option>Release Date</option>
+          <option>Episode Order</option>
+          <option>Popularity</option>
+        </select>
+      </div>
+    </div>
 
-  <div class="movie-container">
-    <div class="movie-card"><a href="migration.html">Migration (2023)</a></div>
-    <div class="movie-card"><a href="supermariobros.html">The Super Mario Bros. Movie (2023)</a></div>
-    <div class="movie-card"><a href="despicableme.html">Despicable Me (2010)</a></div>
-    <div class="movie-card"><a href="despicableme2.html">Despicable Me 2 (2013)</a></div>
-    <div class="movie-card"><a href="despicableme3.html">Despicable Me 3 (2017)</a></div>
-    <div class="movie-card"><a href="despicableme4.html">Despicable Me 4 (2024)</a></div>
-    <div class="movie-card"><a href="minionsriseofgru.html">Minions: The Rise of Gru (2022)</a></div>
-    <div class="movie-card"><a href="minions.html">Minions (2015)</a></div>
-    <div class="movie-card"><a href="mowerminions.html">Mower Minions (2022)</a></div>
-    <div class="movie-card"><a href="minionsvolume1.html">Minions & More Volume 1 (2022)</a></div>
-    <div class="movie-card"><a href="minionsvolume2.html">Minions & More Volume 2 (2022)</a></div>
-    <div class="movie-card"><a href="yellowisthenewblack.html">Yellow Is the New Black (2022)</a></div>
-    <div class="movie-card"><a href="santaslittlehelpers.html">Santa's Little Helpers (2019)</a></div>
-    <div class="movie-card"><a href="competition.html">Competition (2021)</a></div>
-    <div class="movie-card"><a href="banana.html">Banana (2010)</a></div>
-    <div class="movie-card"><a href="secretlifeofpets.html">The Secret Life of Pets (2016)</a></div>
-    <div class="movie-card"><a href="secretlifeofpets2.html">The Secret Life of Pets 2 (2019)</a></div>
-    <div class="movie-card"><a href="sing.html">Sing (2016)</a></div>
-    <div class="movie-card"><a href="sing2.html">Sing 2 (2021)</a></div>
-    <div class="movie-card"><a href="singthriller.html">Sing: Thriller (2021)</a></div>
-    <div class="movie-card"><a href="homemakeover.html">Home Makeover (2021)</a></div>
-    <div class="movie-card"><a href="hop.html">Hop (2011)</a></div>
-    <div class="movie-card"><a href="lorax.html">The Lorax (2012)</a></div>
-    <div class="movie-card"><a href="grinch.html">The Grinch (2018)</a></div>
+    <!-- Episodes Grid -->
+    <section>
+      <h3 class="text-xl font-semibold mb-6 flex items-center">
+        <i class="fas fa-list-ul text-yellow-500 mr-2"></i>
+        Collection
+      </h3>
+      
+      <div id="movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <!-- Movie cards will be inserted here by JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+              <i class="fas fa-shield-alt text-black text-sm"></i>
+            </div>
+            <span class="text-xl font-bold gradient-text">Illumination</span>
+          </div>
+          <p class="text-gray-400 text-sm mt-2">© 2023 Illumination Productions. All rights reserved.</p>
+        </div>
+        
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Playback Modal (hidden by default) -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90">
+    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="aspect-w-16 aspect-h-9">
+        <video id="modal-video" class="w-full" controls>
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="p-6">
+        <h3 id="modal-title" class="text-2xl font-bold mb-2"></h3>
+        <div class="flex items-center text-gray-400 text-sm mb-4">
+          <span class="mr-4">S1 • E<span id="episode-num"></span></span>
+          <span>45 min</span>
+        </div>
+        <p id="modal-description" class="text-gray-300 mb-6">
+          Loading description...
+        </p>
+        <div class="flex space-x-3">
+          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-play mr-2"></i> Play
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-plus mr-2"></i> Watchlist
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <script>
+    // Movie data
+    const movies = [
+      { title: "Migration", video: "https://sojg.wesleykqpg.sbs/v4/ek/ekij1/index-f1-v1.txt", image: "https://image.tmdb.org/t/p/original/dpXxBDi0ut5svjh5fbAqLoaJSq8.jpg" },
+  { title: "The Super Mario Bros. Movie", video: "https://sdqm.baugherhatchp.sbs/v4/ek/3brks/cf-master.txt?v=1731381832", image: "https://m.media-amazon.com/images/I/91zqGNzwk5L._AC_UF894,1000_QL80_.jpg" },
+  { title: "Despicable Me", video: "https://sr81.griseldakro.sbs:443/v4/xq/vluy1/index-f2-v1-a1.txt", image: "https://wallpapercat.com/w/full/a/6/6/137843-1920x1080-desktop-full-hd-despicable-me-background-photo.jpg" },
+  { title: "Despicable Me 2", video: "https://cdn-1.celestialodyssey.site/video-stream/a9803878/playlist.m3u8", image: "https://m.media-amazon.com/images/I/81azummBNsL._AC_UF894,1000_QL80_.jpg" },
+  { title: "Despicable Me 3", video: "https://cdn-1.celestialodyssey.site/video-stream/55cf4cf7/playlist.m3u8", image: "https://cinemalightboxes.com/cdn/shop/products/DespicableMe3v2.jpg?v=1621705467" },
+  { title: "Despicable Me 4", video: "https://cdn-1.celestialodyssey.site/video-stream/dc5f07a0/playlist.m3u8", image: "https://i.ebayimg.com/images/g/yTwAAOSwdCtmjJf3/s-l1200.jpg" },
+  { title: "Minions: The Rise of Gru", video: "https://cdn-1.celestialodyssey.site/video-stream/fbca131b/playlist.m3u8", image: "https://image.tmdb.org/t/p/original/1WiUlJH7MMxWn2MIxW1hwMcYam6.jpg" },
+  { title: "Minions", video: "https://cdn-1.celestialodyssey.site/video-stream/4372f73a/playlist.m3u8", image: "https://i.ebayimg.com/images/g/2-4AAOSwP2FZjWe0/s-l1200.jpg" },
+  { title: "Mower Minions", video: "https://cdn-1.celestialodyssey.site/video-stream/d44801f0/playlist.m3u8", image: "https://image.tmdb.org/t/p/original/fPg5pkhRff7IAVG1lx2vB17ssYR.jpg" },
+  { title: "Minions & More Volume 1", video: "https://cdn-1.celestialodyssey.site/video-stream/cee76b74/playlist.m3u8", image: "https://m.media-amazon.com/images/M/MV5BOTcxNDIwMmItNGFiOC00NjRkLWI1NDQtMGM3ZGNmZjljNDFhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+  { title: "Minions & More Volume 2", video: "https://cdn-1.celestialodyssey.site/video-stream/61ec181f/playlist.m3u8", image: "https://image.tmdb.org/t/p/original/uYLS9uMZmP6iXAh0jhWUZI2Nk3e.jpg" },
+  { title: "Yellow Is the New Black", video: "https://cdn-1.celestialodyssey.site/video-stream/ebd9fd6c/playlist.m3u8", image: "https://i.pinimg.com/736x/9e/16/41/9e1641d6057cfae2e77879866f54a8a3.jpg" },
+  { title: "Santa's Little Helpers", video: "https://cdn-1.celestialodyssey.site/video-stream/4dbe366b/playlist.m3u8", image: "https://cdn.posteritati.com/posters/000/000/061/237/octopussy-md-web.jpg" },  
+  { title: "Competition", video: "https://cdn-1.celestialodyssey.site/video-stream/3b6df79c/playlist.m3u8", image: "https://m.media-amazon.com/images/M/MV5BMzY3MzliYjEtNjE0NC00MWJiLThjMzItZTNkMmE3MGJmZWRiXkEyXkFqcGc@._V1_.jpg" },
+  { title: "Banana", video: "https://cdn-1.celestialodyssey.site/video-stream/2748ce73/playlist.m3u8", image: "https://posterspy.com/wp-content/uploads/2023/06/TLD_WEB_TEMPLATE_1000x1500px.jpg" },
+  { title: "The Secret Life of Pets", video: "https://cdn-1.celestialodyssey.site/video-stream/25b11d96/playlist.m3u8", image: "https://i.pinimg.com/736x/d8/45/27/d84527d6f1c4cba168b690a59454bf36.jpg" },
+  { title: "The Secret Life of Pets 2", video: "https://s3ae.killionorellanacoelho.sbs/v4/61/56psf/index-f1-v1-a1.txt", image: "https://i.pinimg.com/736x/96/0e/f3/960ef3339761fc03969d9e37ec60d2d5.jpg" },
+  { title: "Sing", video: "https://cdn-1.celestialodyssey.site/video-stream/8e0794fc/playlist.m3u8", image: "https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/3234392/6220705/GBEFPO431__06020.1709712291.jpg?c=2" },
+  { title: "Sing 2", video: "https://cdn-1.celestialodyssey.site/video-stream/60b66510/playlist.m3u8", image: "https://i.pinimg.com/474x/a5/fc/8f/a5fc8fa3feb3ea9f3f6316cb8c01e9b6.jpg" },
+  { title: "Sing: Thriller", video: "https://cdn-1.celestialodyssey.site/video-stream/431bb15c/playlist.m3u8", image: "https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/500x659/products/2911891/5955577/MOVAJ0534__87882.1679599595.jpg?c=2" },
+  { title: "Home Makeover", video: "https://cdn-1.celestialodyssey.site/video-stream/32000510/playlist.m3u8", image: "https://i.redd.it/6tkj6vkehct81.jpg" },
+  { title: "Hop", video: "https://s3ae.alenapark.sbs:443/v4/ox/xqia6/index-f2-v1-a1.txt", image: "https://artofthemovies.co.uk/cdn/shop/files/IMG_4340_300x300.jpg?v=1697040084" },
+  { title: "The Lorax", video: "https://cdn-1.celestialodyssey.site/video-stream/e606a393/playlist.m3u8", image: "https://i.pinimg.com/736x/d2/b2/ff/d2b2ffa2fb20976ae211f1d473128d2c.jpg" },
+  { title: "The Grinch", video: "https://cdn-1.celestialodyssey.site/video-stream/0be4437c/playlist.m3u8", image: "https://preview.redd.it/4a8rd5658g161.jpg?width=640&crop=smart&auto=webp&s=8c16f3cd4b0a985f791de5507f7d2b1c411eda02" },
+    ];
 
+    // DOM elements
+    const container = document.getElementById('movies');
+    const searchBtn = document.getElementById('search-btn');
+    const searchBar = document.getElementById('search-bar');
+    const themeToggle = document.getElementById('theme-toggle');
+    const playbackModal = document.getElementById('playback-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalVideo = document.getElementById('modal-video');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const episodeNum = document.getElementById('episode-num');
+
+    // Initialize the page
+    function initPage() {
+      // Create movie cards
+      movies.forEach((movie, index) => {
+        const card = document.createElement('div');
+        card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
+        card.innerHTML = `
+          <div class="relative group overflow-hidden rounded-xl cursor-pointer">
+            <img src="${movie.image}" alt="${movie.title}" 
+                 class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <div>
+                <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
+                <p class="text-gray-300 text-sm">${movie.duration}</p>
+              </div>
+            </div>
+            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <h3 class="text-white font-medium">${movie.title}</h3>
+            <div class="flex items-center text-gray-400 text-sm mt-1">
+              <span>S1 • E${index + 1}</span>
+              <span class="mx-2">•</span>
+              <span>${movie.duration}</span>
+            </div>
+          </div>
+        `;
+        
+        card.addEventListener('click', () => {
+          openModal(movie, index + 1);
+        });
+        
+        container.appendChild(card);
+      });
+
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
+          this.classList.add('active', 'bg-yellow-600', 'text-black');
+        });
+      });
+    }
+
+    // Open modal with movie details
+    function openModal(movie, episodeNumber) {
+      modalTitle.textContent = movie.title;
+      modalDescription.textContent = movie.description;
+      episodeNum.textContent = episodeNumber;
+      modalVideo.src = movie.video;
+      
+      playbackModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModalHandler() {
+      playbackModal.classList.add('hidden');
+      modalVideo.pause();
+      document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    searchBtn.addEventListener('click', () => {
+      searchBar.classList.toggle('hidden');
+    });
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('bg-gray-100');
+      document.body.classList.toggle('text-gray-900');
+      document.body.classList.toggle('bg-black');
+      document.body.classList.toggle('text-gray-100');
+      
+      const icon = themeToggle.querySelector('i');
+      if (document.body.classList.contains('bg-black')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+    });
+
+    closeModal.addEventListener('click', closeModalHandler);
+    playbackModal.addEventListener('click', function(e) {
+      if (e.target === this) closeModalHandler();
+    });
+
+    // Initialize the page when loaded
+    window.addEventListener('DOMContentLoaded', initPage);
+  </script>
 </body>
 </html>
