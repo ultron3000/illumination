@@ -2,230 +2,378 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Illumination</title>
+  <title>Illumination Collection | Disney+</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stream all your favorite Illumination movies including Despicable Me, Minions, Sing, and more on Disney+">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #000000, #1a1a2e);
+      min-height: 100vh;
+      color: white;
     }
-    ::-webkit-scrollbar-track {
-      background: #111;
+    .movie-card:hover .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
     }
-    ::-webkit-scrollbar-thumb {
-      background: #ffcc00;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #ffdd33;
-    }
-    
-    /* Custom animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.5s ease-out forwards;
-    }
-    
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
-    .delay-5 { animation-delay: 0.5s; }
-    
-    /* Glow effect */
-    .glow-effect {
-      position: relative;
-    }
-    
-    .glow-effect::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255, 204, 0, 0);
-      transition: box-shadow 0.3s ease;
-      pointer-events: none;
-    }
-    
-    .glow-effect:hover::after {
-      box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
-    }
-    
-    /* Gradient text */
     .gradient-text {
-      background: linear-gradient(90deg, #ffcc00, #ff9900);
+      background: linear-gradient(90deg, #f6d365 0%, #fda085 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-    
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-      .movie-card {
-        width: calc(50% - 1rem);
+    .modal-enter {
+      animation: modalEnter 0.3s ease-out forwards;
+    }
+    @keyframes modalEnter {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
       }
     }
-    
-    @media (max-width: 400px) {
-      .movie-card {
-        width: 100%;
-      }
+    .showcase-header {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%), 
+                  url('https://www.illumination.com/wp-content/uploads/2021/06/illumination-logo.png') no-repeat center center;
+      background-size: cover;
+      height: 70vh;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+    .minion-yellow {
+      background-color: #FED141;
+    }
+    .minion-yellow-text {
+      color: #FED141;
+    }
+    .minion-blue {
+      background-color: #6DB8E8;
+    }
+    .scroll-container {
+      scrollbar-width: thin;
+      scrollbar-color: #FED141 #1a1a2e;
+    }
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scroll-container::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background-color: #FED141;
+      border-radius: 20px;
+    }
+    .shine-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    .shine-effect::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255,255,255,0.13);
+      background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.13) 0%,
+        rgba(255,255,255,0.13) 77%,
+        rgba(255,255,255,0.5) 92%,
+        rgba(255,255,255,0.0) 100%
+      );
+      transform: rotate(30deg);
+      transition: all 0.7s ease-out;
+    }
+    .shine-effect:hover::after {
+      left: 100%;
     }
   </style>
 </head>
-<body class="bg-black text-gray-100 min-h-screen">
-  <!-- Header -->
-  <header class="sticky top-0 z-50 bg-black bg-opacity-90 backdrop-blur-sm border-b border-yellow-600/20">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-2">
-        <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-          <i class="fas fa-shield-alt text-black text-xl"></i>
-        </div>
-        <h1 class="text-2xl font-bold gradient-text">I Am Groot</h1>
-      </div>
-      
-      <div class="flex items-center space-x-4">
-        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-800 transition">
-          <i class="fas fa-moon text-yellow-500"></i>
-        </button>
-        <button id="search-btn" class="p-2 rounded-full hover:bg-gray-800 transition">
-          <i class="fas fa-search text-yellow-500"></i>
-        </button>
-      </div>
-    </div>
-    
-    <!-- Search Bar (hidden by default) -->
-    <div id="search-bar" class="hidden px-4 pb-4">
-      <div class="relative">
-        <input type="text" placeholder="Search episodes..." 
-               class="w-full bg-gray-900 border border-yellow-600/30 rounded-full py-2 px-4 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-        <i class="fas fa-search absolute left-3 top-3 text-yellow-500"></i>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-8">
-    <!-- Hero Section -->
-    <section class="mb-12 relative overflow-hidden rounded-xl">
-      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
-      <img src="https://sm.ign.com/t/ign_in/news/i/i-am-groot/i-am-groot-disney-release-date-and-poster-revealed_ye3u.1200.jpg" 
-           alt="I Am Groot Banner" class="w-full h-64 md:h-96 object-cover">
-      <div class="absolute bottom-0 left-0 z-20 p-6 md:p-8">
-        <h2 class="text-3xl md:text-5xl font-bold mb-2 gradient-text">Season 1&2</h2>
-        <p class="text-gray-300 mb-4 max-w-lg">The complete first season of the high-stakes spy thriller. Betrayal, secrets, and impossible choices.</p>
-        <div class="flex space-x-3">
-          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
-            <i class="fas fa-play mr-2"></i> Play All
-          </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
-            <i class="fas fa-info-circle mr-2"></i> Details
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Filters -->
-    <div class="flex flex-wrap items-center justify-between mb-8 gap-4">
-      <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
-        <button class="filter-btn active bg-yellow-600 text-black px-4 py-1 rounded-full text-sm font-medium">All</button>
-        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Action</button>
-        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Drama</button>
-        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Thriller</button>
-        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Espionage</button>
-      </div>
-      
-      <div class="flex items-center space-x-2">
-        <span class="text-gray-400 text-sm">Sort by:</span>
-        <select class="bg-gray-900 border border-gray-700 text-white text-sm rounded-full px-3 py-1 focus:outline-none focus:ring-1 focus:ring-yellow-500">
-          <option>Release Date</option>
-          <option>Episode Order</option>
-          <option>Popularity</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Episodes Grid -->
-    <section>
-      <h3 class="text-xl font-semibold mb-6 flex items-center">
-        <i class="fas fa-list-ul text-yellow-500 mr-2"></i>
-        Episodes
-      </h3>
-      
-      <div id="movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        <!-- Movie cards will be inserted here by JavaScript -->
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
-    <div class="container mx-auto px-4">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0">
-          <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-              <i class="fas fa-shield-alt text-black text-sm"></i>
-            </div>
-            <span class="text-xl font-bold gradient-text">I Am Groot</span>
+<body>
+  <div class="showcase-header">
+    <header class="bg-gradient-to-b from-black to-transparent py-4 px-6">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <div class="w-10 h-10 minion-yellow rounded-full flex items-center justify-center shine-effect">
+            <i class="fas fa-play text-black"></i>
           </div>
-          <p class="text-gray-400 text-sm mt-2">© 2023 Marvel Studios Productions. All rights reserved.</p>
+          <h1 class="text-xl font-bold minion-yellow-text">Illumination<span class="text-white">+</span></h1>
         </div>
-        
-        <div class="flex space-x-6">
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube"></i></a>
-        </div>
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="hover:minion-yellow-text transition">Home</a>
+          <a href="#" class="hover:minion-yellow-text transition">Movies</a>
+          <a href="#" class="hover:minion-yellow-text transition">Characters</a>
+          <a href="#" class="hover:minion-yellow-text transition">Shorts</a>
+        </nav>
+        <button class="md:hidden text-2xl minion-yellow-text">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
-    </div>
-  </footer>
+    </header>
 
-  <!-- Playback Modal (hidden by default) -->
-  <div id="playback-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90">
-    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden">
-      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl">
-        <i class="fas fa-times"></i>
-      </button>
-      <div class="aspect-w-16 aspect-h-9">
-        <video id="modal-video" class="w-full" controls>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <div class="p-6">
-        <h3 id="modal-title" class="text-2xl font-bold mb-2"></h3>
-        <div class="flex items-center text-gray-400 text-sm mb-4">
-          <span class="mr-4">S1 • E<span id="episode-num"></span></span>
-          <span>45 min</span>
+    <div class="container mx-auto px-4 flex-1 flex items-center">
+      <div class="max-w-4xl">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 gradient-text">Illumination Collection</h1>
+        <div class="flex items-center space-x-4 mb-6">
+          <span class="minion-yellow text-black px-3 py-1 rounded-full text-sm font-semibold">Featured</span>
+          <span class="text-gray-400">2007-2024</span>
+          <span class="text-gray-400">•</span>
+          <span class="text-gray-400">24 Movies & Shorts</span>
         </div>
-        <p id="modal-description" class="text-gray-300 mb-6">
-          Loading description...
+        <p class="text-lg text-gray-300 mb-6">
+          Enjoy all your favorite Illumination Entertainment movies in one place. From the mischievous Minions to the singing animals of Sing, 
+          discover the magic of Illumination's animated universe.
         </p>
-        <div class="flex space-x-3">
-          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
-            <i class="fas fa-play mr-2"></i> Play
+        <div class="flex space-x-4">
+          <button class="minion-yellow hover:bg-yellow-600 text-black font-semibold py-3 px-8 rounded-full flex items-center transition transform hover:scale-105 shine-effect">
+            <i class="fas fa-play mr-2"></i> Featured
           </button>
-          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
-            <i class="fas fa-plus mr-2"></i> Watchlist
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
+            <i class="fas fa-plus mr-2"></i> My List
           </button>
         </div>
       </div>
     </div>
   </div>
 
+  <main class="container mx-auto px-4 pb-16">
+    <!-- Featured Collection -->
+    <section class="mb-12">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold flex items-center">
+          <span class="mr-2 minion-yellow-text">Featured</span>
+          <i class="fas fa-star minion-yellow-text"></i>
+        </h2>
+        <a href="#" class="text-sm minion-yellow-text hover:underline">View All</a>
+      </div>
+      <div class="relative">
+        <div class="scroll-container overflow-x-auto pb-4 flex space-x-6">
+          <div class="flex-none w-64 md:w-80">
+            <div class="movie-card cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 relative">
+              <div class="relative">
+                <img src="https://image.tmdb.org/t/p/original/dpXxBDi0ut5svjh5fbAqLoaJSq8.jpg" alt="Migration" class="w-full h-40 md:h-48 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition">
+                  <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 minion-yellow bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center opacity-0 transition">
+                    <i class="fas fa-play text-black"></i>
+                  </div>
+                </div>
+                <span class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">92 min</span>
+              </div>
+              <div class="p-4">
+                <div class="flex justify-between items-start mb-1">
+                  <h2 class="text-lg font-semibold">Migration</h2>
+                  <span class="minion-yellow-text text-sm">★ 4.2</span>
+                </div>
+                <p class="text-sm text-gray-400">2023 • Animation</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex-none w-64 md:w-80">
+            <div class="movie-card cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 relative">
+              <div class="relative">
+                <img src="https://image.tmdb.org/t/p/original/1WiUlJH7MMxWn2MIxW1hwMcYam6.jpg" alt="Minions: The Rise of Gru" class="w-full h-40 md:h-48 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition">
+                  <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 minion-yellow bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center opacity-0 transition">
+                    <i class="fas fa-play text-black"></i>
+                  </div>
+                </div>
+                <span class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">88 min</span>
+              </div>
+              <div class="p-4">
+                <div class="flex justify-between items-start mb-1">
+                  <h2 class="text-lg font-semibold">Minions: The Rise of Gru</h2>
+                  <span class="minion-yellow-text text-sm">★ 4.6</span>
+                </div>
+                <p class="text-sm text-gray-400">2022 • Animation</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex-none w-64 md:w-80">
+            <div class="movie-card cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 relative">
+              <div class="relative">
+                <img src="https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/3234392/6220705/GBEFPO431__06020.1709712291.jpg?c=2" alt="Sing" class="w-full h-40 md:h-48 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition">
+                  <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 minion-yellow bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center opacity-0 transition">
+                    <i class="fas fa-play text-black"></i>
+                  </div>
+                </div>
+                <span class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">108 min</span>
+              </div>
+              <div class="p-4">
+                <div class="flex justify-between items-start mb-1">
+                  <h2 class="text-lg font-semibold">Sing</h2>
+                  <span class="minion-yellow-text text-sm">★ 4.3</span>
+                </div>
+                <p class="text-sm text-gray-400">2016 • Musical</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex-none w-64 md:w-80">
+            <div class="movie-card cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 relative">
+              <div class="relative">
+                <img src="https://i.ebayimg.com/images/g/yTwAAOSwdCtmjJf3/s-l1200.jpg" alt="Despicable Me 4" class="w-full h-40 md:h-48 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition">
+                  <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 minion-yellow bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center opacity-0 transition">
+                    <i class="fas fa-play text-black"></i>
+                  </div>
+                </div>
+                <span class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">90 min</span>
+              </div>
+              <div class="p-4">
+                <div class="flex justify-between items-start mb-1">
+                  <h2 class="text-lg font-semibold">Despicable Me 4</h2>
+                  <span class="minion-yellow-text text-sm">★ 6.2</span>
+                </div>
+                <p class="text-sm text-gray-400">2024 • Comedy</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Franchise Sections -->
+    <section class="mb-12">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold flex items-center">
+          <i class="fas fa-users mr-2 minion-yellow-text"></i>
+          <span>Despicable Me & Minions</span>
+        </h2>
+        <a href="#" class="text-sm minion-yellow-text hover:underline">View All</a>
+      </div>
+      <div id="movies" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+    </section>
+
+    <section class="mb-12">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold flex items-center">
+          <i class="fas fa-music mr-2 minion-blue-text"></i>
+          <span>Sing Collection</span>
+        </h2>
+        <a href="#" class="text-sm minion-yellow-text hover:underline">View All</a>
+      </div>
+      <div id="sing-movies" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+    </section>
+
+    <section class="mb-12">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold flex items-center">
+          <i class="fas fa-film mr-2 minion-yellow-text"></i>
+          <span>Shorts & Specials</span>
+        </h2>
+        <a href="#" class="text-sm minion-yellow-text hover:underline">View All</a>
+      </div>
+      <div id="shorts" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90">
+    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden modal-enter">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:minion-yellow-text text-2xl transition">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="aspect-w-16 aspect-h-9">
+        <video id="modal-video" class="w-full" controls poster="https://www.illumination.com/wp-content/uploads/2021/06/illumination-logo.png"></video>
+      </div>
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 id="modal-title" class="text-2xl font-bold mb-1"></h3>
+            <div class="text-gray-400 text-sm">
+              <span id="movie-year"></span> • <span id="movie-duration"></span> • <span class="minion-yellow-text">★ <span id="movie-rating"></span>/10</span>
+            </div>
+          </div>
+          <div class="flex space-x-3">
+            <button class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+          </div>
+        </div>
+        <p id="modal-description" class="text-gray-300 mb-6"></p>
+        <div class="flex space-x-4">
+          <button class="minion-yellow hover:bg-yellow-600 text-black font-semibold py-3 px-8 rounded-full flex items-center transition transform hover:scale-105">
+            <i class="fas fa-play mr-2"></i> Play
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-full flex items-center transition">
+            <i class="fas fa-plus mr-2"></i> Watchlist
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-full transition">
+            <i class="fas fa-thumbs-up"></i>
+          </button>
+        </div>
+        <div class="mt-6 pt-6 border-t border-gray-800">
+          <h4 class="text-sm font-semibold text-gray-400 mb-2">Details</h4>
+          <p class="text-gray-300 text-sm"><span id="movie-genre"></span> • <span id="movie-director"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-gray-900 py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-10 h-10 minion-yellow rounded-full flex items-center justify-center">
+              <i class="fas fa-play text-black"></i>
+            </div>
+            <h1 class="text-xl font-bold minion-yellow-text">Illumination<span class="text-white">+</span></h1>
+          </div>
+          <p class="text-gray-400 text-sm">© 2024 Disney+ Original Collection</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">Navigation</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Home</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Movies</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Characters</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Shorts</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">Legal</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Terms</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Privacy</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Cookies</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">About</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Illumination</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Careers</a></li>
+              <li><a href="#" class="text-gray-400 hover:minion-yellow-text text-sm transition">Press</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-gray-300 font-semibold mb-3">Social</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:minion-yellow-text transition"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:minion-yellow-text transition"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:minion-yellow-text transition"><i class="fab fa-facebook"></i></a>
+              <a href="#" class="text-gray-400 hover:minion-yellow-text transition"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    // Movie data
     const movies = [
       { 
         title: "Migration", 
@@ -234,6 +382,8 @@
         year: 2023,
         duration: "92 min",
         rating: 4.2,
+        genre: "Animation, Adventure",
+        director: "Benjamin Renner",
         description: "A family of ducks decides to leave the safety of a New England pond for an adventurous trip to Jamaica. However, their perfect vacation takes a wild turn when they get lost and wind up in New York City."
       },
       { 
@@ -243,6 +393,8 @@
         year: 2023,
         duration: "92 min",
         rating: 4.5,
+        genre: "Animation, Adventure",
+        director: "Aaron Horvath, Michael Jelenic",
         description: "A Brooklyn plumber named Mario travels through the Mushroom Kingdom with a princess named Peach and an anthropomorphic mushroom named Toad to find Mario's brother, Luigi, and to save the world from a ruthless fire-breathing Koopa named Bowser."
       },
       { 
@@ -252,6 +404,8 @@
         year: 2010,
         duration: "95 min",
         rating: 4.7,
+        genre: "Animation, Comedy",
+        director: "Pierre Coffin, Chris Renaud",
         description: "When a criminal mastermind uses a trio of orphan girls as pawns for a grand scheme, he finds their love is profoundly changing him for the better."
       },
       { 
@@ -261,6 +415,8 @@
         year: 2013,
         duration: "98 min",
         rating: 4.5,
+        genre: "Animation, Comedy",
+        director: "Pierre Coffin, Chris Renaud",
         description: "While Gru, the ex-supervillain is adjusting to family life and an honest job, the Anti-Villain League recruits him to help them deal with a powerful new criminal."
       },
       { 
@@ -270,7 +426,20 @@
         year: 2017,
         duration: "90 min",
         rating: 4.3,
+        genre: "Animation, Comedy",
+        director: "Pierre Coffin, Kyle Balda",
         description: "Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist."
+      },
+      { 
+        title: "Despicable Me 4", 
+        video: "https://macdn.hakunaymatata.com/resource/59f3a8922f10d4d5a54cecefc43c7698.mp4?Expires=1749424153&Signature=kzW3HOXBBUNTn~ypBYwn8sfrU3m5fjaKcAg2ygFkCxbYNXx1PBm3n1oYL2O2F3n7EPRDIGWbYUJ2Jg5pOW-aQQNTHBs2lfjYvZE13kDx4Renx5p44TOB9jRVjjbGvFt45hozMISN1huYystC9AIf8o113eLMh5y7GPbV2bobHsA910VEcv7y~HPHf6ZkBkxHOKrJUAkBXxBhUmySlEuV6clnCecemj5XksQcn5lsCWQwXD9dgLJJVStxU~UQ1WoGhiOJpz8nLlnvT2qc0A3YLhGRFQUGxAJRvfP7zQfApNkKioyj1qCxTleCWu8Y8X~kv18JI-gzHqNyvrCSKPsTDg__&Key-Pair-Id=KMHN1LQ1HEUPL", 
+        image: "https://i.ebayimg.com/images/g/yTwAAOSwdCtmjJf3/s-l1200.jpg",
+        year: 2024,
+        duration: "90 min",
+        rating: 6.2,
+        genre: "Animation, Comedy",
+        director: "Chris Renaud, Patrick Delage",
+        description: "Gru, Lucy, Margo, Edith, and Agnes welcome a new member to the family, Gru Jr., who is intent on tormenting his dad. Gru faces a new nemesis in Maxime Le Mal and his girlfriend Valentina, and the family is forced to go on the run."
       },
       { 
         title: "Minions", 
@@ -279,6 +448,8 @@
         year: 2015,
         duration: "91 min",
         rating: 4.4,
+        genre: "Animation, Comedy",
+        director: "Pierre Coffin, Kyle Balda",
         description: "Minions Stuart, Kevin, and Bob are recruited by Scarlet Overkill, a super-villain who, alongside her inventor husband Herb, hatches a plot to take over the world."
       },
       { 
@@ -288,6 +459,8 @@
         year: 2022,
         duration: "88 min",
         rating: 4.6,
+        genre: "Animation, Comedy",
+        director: "Kyle Balda",
         description: "The untold story of one twelve-year-old's dream to become the world's greatest supervillain in 1970s suburbia, aided by his Minions."
       },
       { 
@@ -297,6 +470,8 @@
         year: 2016,
         duration: "87 min",
         rating: 4.1,
+        genre: "Animation, Comedy",
+        director: "Chris Renaud",
         description: "Max's life as a favorite pet is turned upside down when his owner takes in Duke, a stray. When the pair find themselves out on the streets, they have to put aside their differences to survive."
       },
       { 
@@ -306,6 +481,8 @@
         year: 2019,
         duration: "86 min",
         rating: 4.0,
+        genre: "Animation, Comedy",
+        director: "Chris Renaud",
         description: "Max faces some major changes after his owner Katie gets married and has a baby. When the family takes a trip to the countryside, nervous Max has a run-in with a canine-intolerant farm dog."
       },
       { 
@@ -315,6 +492,8 @@
         year: 2016,
         duration: "108 min",
         rating: 4.3,
+        genre: "Animation, Musical",
+        director: "Garth Jennings",
         description: "In a city of humanoid animals, a hustling theater impresario's attempt to save his theater with a singing competition becomes grander than he anticipates."
       },
       { 
@@ -324,6 +503,8 @@
         year: 2021,
         duration: "110 min",
         rating: 4.5,
+        genre: "Animation, Musical",
+        director: "Garth Jennings",
         description: "Buster Moon and his friends must persuade reclusive rock star Clay Calloway to join them for the opening of a new show."
       },
       { 
@@ -333,6 +514,8 @@
         year: 2012,
         duration: "86 min",
         rating: 4.0,
+        genre: "Animation, Family",
+        director: "Chris Renaud",
         description: "A 12-year-old boy searches for the one thing that will enable him to win the affection of the girl of his dreams. To find it he must discover the story of the Lorax, the grumpy yet charming creature who fights to protect his world."
       },
       { 
@@ -342,6 +525,8 @@
         year: 2018,
         duration: "86 min",
         rating: 4.2,
+        genre: "Animation, Comedy",
+        director: "Scott Mosier, Yarrow Cheney",
         description: "A grumpy Grinch plots to ruin Christmas for the village of Whoville."
       },
       { 
@@ -351,6 +536,8 @@
         year: 2011,
         duration: "95 min",
         rating: 3.8,
+        genre: "Animation, Comedy",
+        director: "Tim Hill",
         description: "The Easter Bunny's teenage son heads to Hollywood, determined to become a drummer in a rock 'n' roll band. In LA, he's taken in by a slacker who tries to help him."
       },
       { 
@@ -360,6 +547,8 @@
         year: 2016,
         duration: "5 min",
         rating: 3.9,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "The Minions try to earn money by mowing lawns, but their efforts lead to unexpected chaos."
       },
       { 
@@ -369,6 +558,8 @@
         year: 2012,
         duration: "45 min",
         rating: 4.0,
+        genre: "Animation, Collection",
+        director: "Multiple",
         description: "A collection of short films featuring the Minions and other characters from the Despicable Me universe."
       },
       { 
@@ -378,6 +569,8 @@
         year: 2015,
         duration: "50 min",
         rating: 4.1,
+        genre: "Animation, Collection",
+        director: "Multiple",
         description: "More short films featuring the Minions and other characters from the Despicable Me universe."
       },
       { 
@@ -387,6 +580,8 @@
         year: 2010,
         duration: "5 min",
         rating: 3.8,
+        genre: "Animation, Short",
+        director: "Pierre Coffin",
         description: "A short film featuring the Minions in their early days working for Gru."
       },
       { 
@@ -396,6 +591,8 @@
         year: 2010,
         duration: "5 min",
         rating: 3.7,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "The Minions try to help Santa Claus deliver presents on Christmas Eve."
       },
       { 
@@ -405,6 +602,8 @@
         year: 2011,
         duration: "5 min",
         rating: 3.9,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "The Minions compete against each other in various challenges."
       },
       { 
@@ -414,6 +613,8 @@
         year: 2010,
         duration: "5 min",
         rating: 4.0,
+        genre: "Animation, Short",
+        director: "Pierre Coffin",
         description: "The Minions go bananas over their favorite fruit."
       },
       { 
@@ -423,6 +624,8 @@
         year: 2016,
         duration: "3 min",
         rating: 4.2,
+        genre: "Animation, Short",
+        director: "Garth Jennings",
         description: "A musical short featuring the characters from Sing performing Michael Jackson's Thriller."
       },
       { 
@@ -432,6 +635,8 @@
         year: 2010,
         duration: "5 min",
         rating: 3.8,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "The Minions attempt to redecorate Gru's house with hilarious results."
       },
       { 
@@ -441,6 +646,8 @@
         year: 2010,
         duration: "5 min",
         rating: 3.9,
+        genre: "Animation, Short",
+        director: "Pierre Coffin",
         description: "The Minions go through orientation at their new workplace."
       },
       { 
@@ -450,6 +657,8 @@
         year: 2013,
         duration: "5 min",
         rating: 4.0,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "The Minions encounter a cute but troublesome puppy."
       },
       { 
@@ -459,6 +668,8 @@
         year: 2013,
         duration: "5 min",
         rating: 3.8,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "Chaos ensues when the Minions work in the mailroom."
       },
       { 
@@ -468,114 +679,96 @@
         year: 2013,
         duration: "5 min",
         rating: 3.9,
+        genre: "Animation, Short",
+        director: "Eric Favre",
         description: "The Minions learn to ride bikes with hilarious results."
       }
     ];
 
-    // DOM elements
     const container = document.getElementById('movies');
-    const searchBtn = document.getElementById('search-btn');
-    const searchBar = document.getElementById('search-bar');
-    const themeToggle = document.getElementById('theme-toggle');
+    const singContainer = document.getElementById('sing-movies');
+    const shortsContainer = document.getElementById('shorts');
     const playbackModal = document.getElementById('playback-modal');
     const closeModal = document.getElementById('close-modal');
     const modalVideo = document.getElementById('modal-video');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
-    const episodeNum = document.getElementById('episode-num');
+    const movieYear = document.getElementById('movie-year');
+    const movieDuration = document.getElementById('movie-duration');
+    const movieRating = document.getElementById('movie-rating');
+    const movieGenre = document.getElementById('movie-genre');
+    const movieDirector = document.getElementById('movie-director');
 
-    // Initialize the page
-    function initPage() {
-      // Create movie cards
-      movies.forEach((movie, index) => {
-        const card = document.createElement('div');
-        card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
-        card.innerHTML = `
-          <div class="relative group overflow-hidden rounded-xl cursor-pointer">
-            <img src="${movie.image}" alt="${movie.title}" 
-                 class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <div>
-                <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
-                <p class="text-gray-300 text-sm">${movie.duration}</p>
-              </div>
-            </div>
-            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
-              <i class="fas fa-play"></i>
-            </div>
-          </div>
-          <div class="mt-3">
-            <h3 class="text-white font-medium">${movie.title}</h3>
-            <div class="flex items-center text-gray-400 text-sm mt-1">
-              <span>S1 • E${index + 1}</span>
-              <span class="mx-2">•</span>
-              <span>${movie.duration}</span>
-            </div>
-          </div>
-        `;
-        
-        card.addEventListener('click', () => {
-          openModal(movie, index + 1);
-        });
-        
-        container.appendChild(card);
-      });
-
-      // Filter buttons
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
-          this.classList.add('active', 'bg-yellow-600', 'text-black');
-        });
-      });
+    function isStream(url) {
+      return url.includes('.m3u8') || url.includes('.txt');
     }
 
-    // Open modal with movie details
-    function openModal(movie, episodeNumber) {
+    function openModal(movie) {
       modalTitle.textContent = movie.title;
       modalDescription.textContent = movie.description;
-      episodeNum.textContent = episodeNumber;
+      movieYear.textContent = movie.year;
+      movieDuration.textContent = movie.duration;
+      movieRating.textContent = movie.rating;
+      movieGenre.textContent = movie.genre;
+      movieDirector.textContent = movie.director;
       modalVideo.src = movie.video;
-      
+
       playbackModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
+      modalVideo.play();
     }
 
-    // Close modal
     function closeModalHandler() {
       playbackModal.classList.add('hidden');
       modalVideo.pause();
+      modalVideo.src = "";
       document.body.style.overflow = '';
     }
 
-    // Event listeners
-    searchBtn.addEventListener('click', () => {
-      searchBar.classList.toggle('hidden');
-    });
+    closeModal.addEventListener('click', closeModalHandler);
 
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('bg-gray-100');
-      document.body.classList.toggle('text-gray-900');
-      document.body.classList.toggle('bg-black');
-      document.body.classList.toggle('text-gray-100');
-      
-      const icon = themeToggle.querySelector('i');
-      if (document.body.classList.contains('bg-black')) {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
+    // Render movie cards by franchise
+    movies.forEach((movie) => {
+      const card = document.createElement('div');
+      card.className = 'movie-card cursor-pointer bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 relative';
+      card.innerHTML = `
+        <div class="relative">
+          <img src="${movie.image}" alt="${movie.title}" class="w-full h-40 md:h-48 object-cover">
+          <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition">
+            <div class="play-icon absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 minion-yellow bg-opacity-90 rounded-full w-12 h-12 flex items-center justify-center opacity-0 transition">
+              <i class="fas fa-play text-black"></i>
+            </div>
+          </div>
+          <span class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">${movie.duration}</span>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-1">
+            <h2 class="text-lg font-semibold">${movie.title}</h2>
+            <span class="minion-yellow-text text-sm">★ ${movie.rating}</span>
+          </div>
+          <p class="text-sm text-gray-400">${movie.year} • ${movie.genre.split(',')[0]}</p>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        if (isStream(movie.video)) {
+          const url = `player.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}`;
+          window.location.href = url;
+        } else {
+          openModal(movie);
+        }
+      });
+
+      // Sort into different containers based on franchise
+      if (movie.title.includes('Despicable Me') || movie.title.includes('Minions')) {
+        container.appendChild(card);
+      } else if (movie.title.includes('Sing')) {
+        singContainer.appendChild(card);
+      } else if (movie.duration.includes('min') && parseInt(movie.duration) < 20) {
+        shortsContainer.appendChild(card);
       } else {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
+        container.appendChild(card);
       }
     });
-
-    closeModal.addEventListener('click', closeModalHandler);
-    playbackModal.addEventListener('click', function(e) {
-      if (e.target === this) closeModalHandler();
-    });
-
-    // Initialize the page when loaded
-    window.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
